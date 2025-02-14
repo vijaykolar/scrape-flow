@@ -1,8 +1,10 @@
+"use client";
 import { ReactNode } from "react";
 import { Separator } from "@/components/ui/separator";
 import { DesktopSidebar } from "@/components/Sidebar";
 import { BreadcrumbHeader } from "@/components/BreadcrumbHeader";
-import { ToggleThemeMode } from "@/components/ToogleThemeMode";
+import { ToggleThemeMode } from "@/components/ToggleThemeMode";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
@@ -11,7 +13,15 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       <div className="flex flex-col flex-1 min-h-screen">
         <header className="flex items-center justify-between px-6 p-y container h-[50px]">
           <BreadcrumbHeader />
-          <ToggleThemeMode />
+          <div className="flex items-center space-x-3">
+            <ToggleThemeMode />
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+          </div>
         </header>
         <Separator />
         <div className="overflow-auto">

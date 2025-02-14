@@ -32,7 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-
+.env.local
+.env
+.clerk
+.clerk*
 # vercel
 .vercel
 
@@ -43,3 +46,5 @@ next-env.d.ts
 .idea*
 .idea/*
 .idea*/
+# clerk configuration (can include secrets)
+/.clerk/
