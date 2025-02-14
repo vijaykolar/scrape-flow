@@ -12,8 +12,7 @@ export const Logo = ({ fontSize = "text-2xl", iconSize = 20 }: Props) => {
       href="/"
       className={cn(
         "text-2xl font-extrabold flex items-center gap-2",
-        fontSize,
-        iconSize,
+        fontSize
       )}
     >
       <div className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 p-2">
