@@ -69,7 +69,6 @@ export const DesktopSidebar = () => {
           </Link>
         ))}
       </div>
-      Sidebar
     </div>
   );
 };
