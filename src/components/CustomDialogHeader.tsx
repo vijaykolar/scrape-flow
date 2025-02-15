@@ -22,9 +22,9 @@ export const CustomDialogHeader = ({
   subTitleClassName,
 }: CustomDialogHeaderProps) => {
   return (
-    <DialogHeader className="py-6">
+    <DialogHeader className="py-6 pb-2">
       <DialogTitle asChild className={cn(titleClassName)}>
-        <div className="flex flex-col items-center gap-2 mb-2">
+        <div className="flex flex-col items-center gap-1 mb-3">
           {Icon && (
             <Icon size={32} className={cn("stroke-primary", iconClassName)} />
           )}

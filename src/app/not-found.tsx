@@ -161,7 +161,7 @@ export default function NotFound() {
           </svg>
         </div>
         {/* <h1 className="text-primary font-semibold text-6xl">404</h1> */}
-        <h2 className="font-semibold text-2xl">Page not found.</h2>
+        <h2 className="font-semibold text-2xl">Page not found</h2>
         <p className="text-muted-foreground mb-10 max-w-md mt-3">
           Don&apos;t worry, even the best data sometimes gets lost in the
           internet.

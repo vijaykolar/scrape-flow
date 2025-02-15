@@ -39,7 +39,6 @@ async function UserWorkflows() {
   try {
     await waitFor(2000);
     const workflows = await GetWorkflowForUser();
-    console.log(workflows);
 
     if (workflows.length === 0) {
       return (
@@ -57,7 +56,7 @@ async function UserWorkflows() {
         </div>
       );
     }
-    return <div>dd</div>;
+    return <pre>{JSON.stringify(workflows, null, 4)}</pre>;
   } catch (error) {
     return (
       <Alert variant="destructive">

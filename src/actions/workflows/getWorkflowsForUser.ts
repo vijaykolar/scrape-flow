@@ -9,7 +9,7 @@ export async function GetWorkflowForUser() {
     throw new Error("User unauthorized from getWorkflowsForUser");
   }
 
-  return prisma.workflow.findMany({
+  return await prisma.workflow.findMany({
     where: {
       userId,
     },
