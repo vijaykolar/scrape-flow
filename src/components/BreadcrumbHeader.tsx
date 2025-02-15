@@ -14,7 +14,6 @@ import { MobileSidebar } from "./Sidebar";
 export const BreadcrumbHeader = () => {
   const pathName = usePathname();
   const paths = pathName === "/" ? [""] : pathName?.split("/");
-  console.log(paths);
 
   return (
     <div className="flex flex-start items-center">

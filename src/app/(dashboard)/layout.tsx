@@ -25,7 +25,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
         </header>
         <Separator />
         <div className="overflow-auto">
-          <div className="flex container py-4 text-accent-foreground">
+          <div className="flex container py-6 text-accent-foreground">
             {children}
           </div>
         </div>
