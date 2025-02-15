@@ -14,6 +14,7 @@ export default function WorkflowsPage() {
           <h1 className="text-3xl font-bold">Workflows</h1>
           <p className="text-muted-foreground">Manage your workflows</p>
         </div>
+        <CreateWorkflowDialog />
       </div>
       <div className="h-full py-6">
         <Suspense fallback={<UserWorkflowSkeleton />}>

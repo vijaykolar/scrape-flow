@@ -4,11 +4,12 @@ import { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogTitle,
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Layers2Icon } from "lucide-react";
+import { CustomDialogHeader } from "@/components/CustomDialogHeader";
 
 type CreateWorkflowDialogProps = {
   triggerText?: string;
@@ -23,8 +24,12 @@ export const CreateWorkflowDialog = ({
       <DialogTrigger asChild>
         <Button>{triggerText ?? "Create Workflow"}</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogTitle className="hidden">dd</DialogTitle>
+      <DialogContent className="p-0">
+        <CustomDialogHeader
+          icon={Layers2Icon}
+          title="Create workflow"
+          subTitle="Start building your workflow"
+        />
         <DialogDescription>Dialog Content</DialogDescription>
       </DialogContent>
     </Dialog>
