@@ -1,10 +1,10 @@
 import { GetWorkflowForUser } from "@/actions/workflows/getWorkflowsForUser";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { waitFor } from "@/lib/helpers/waitFor";
 import { AlertCircle, InboxIcon } from "lucide-react";
 import { Suspense } from "react";
+import { CreateWorkflowDialog } from "./_components/CreateWorkflowDialog";
 
 export default function WorkflowsPage() {
   return (
@@ -51,13 +51,13 @@ async function UserWorkflows() {
             <p className="text-sm text-muted-foreground">
               Click on the button below to create a new workflow.
             </p>
-            <Button>Create</Button>
           </div>
+          <CreateWorkflowDialog triggerText="Create your first workflow" />
         </div>
       );
     }
     return <div>dd</div>;
-  } catch (error: unknown) {
+  } catch (error) {
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
