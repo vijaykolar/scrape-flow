@@ -5,7 +5,7 @@ export const LaunchBrowserTask = {
   type: TaskType.LAUNCH_BROWSER,
   label: "Launch Browser",
   icon: (props: LucideProps) => (
-    <GlobeIcon className="stroke-purple-400" {...props} />
+    <GlobeIcon className="stroke-1 stroke-amber-200" {...props} />
   ),
   isEntryPoint: true,
 };
