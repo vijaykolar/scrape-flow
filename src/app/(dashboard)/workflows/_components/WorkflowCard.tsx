@@ -1,3 +1,4 @@
+"use client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useState, Fragment } from "react";
+import { DeleteWorkflowDialog } from "./DeleteWorkflowDialog";
 
 const statusColors = {
   [WorkflowStatus.DRAFT]: "bg-yellow-300 text-yellow-600",
@@ -77,35 +80,62 @@ export const WorkflowCard = ({ workflow }: { workflow: Workflow }) => {
             <ShuffleIcon size={16} className="h-4 w-4" />
             Edit
           </Link>
-          <WorkflowActions />
+          <WorkflowActions
+            workflowName={workflow.name}
+            workflowId={workflow.id}
+          />
         </div>
       </CardContent>
     </Card>
   );
 };
 
-function WorkflowActions() {
+function WorkflowActions({
+  workflowName,
+  workflowId,
+}: {
+  workflowName: string;
+  workflowId: string;
+}) {
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const handleShowDeleteDialog = () => {
+    setShowDeleteDialog((prev) => !prev);
+  };
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="outline">
-          <TooltipWrapper content="More options">
-            <div className="flex items-center w-full justify-center h-full">
-              <MoreVerticalIcon size={18} />
-            </div>
-          </TooltipWrapper>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-destructive flex items-center gap-2">
-          <TrashIcon size={16} /> Delete
-        </DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Fragment>
+      {showDeleteDialog && (
+        <DeleteWorkflowDialog
+          open={showDeleteDialog}
+          setOpen={setShowDeleteDialog}
+          workflowName={workflowName}
+          workflowId={workflowId}
+        />
+      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button size="sm" variant="outline">
+            <TooltipWrapper content="More options">
+              <div className="flex items-center w-full justify-center h-full">
+                <MoreVerticalIcon size={18} />
+              </div>
+            </TooltipWrapper>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onSelect={handleShowDeleteDialog}
+            className="text-destructive flex items-center gap-2"
+          >
+            <TrashIcon size={16} /> Delete
+          </DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuItem>Subscription</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </Fragment>
   );
 }
