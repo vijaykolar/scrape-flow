@@ -2,15 +2,41 @@
 
 import { type TaskParam, TaskParamType } from "@/types/task";
 import { StringParam } from "@/app/workflow/_components/nodes/param/StringParam";
+import { useReactFlow } from "@xyflow/react";
+import { AppNode } from "@/types/appNode";
+import { useCallback } from "react";
 
 type NodeParamFieldProps = {
   param: TaskParam;
+  nodeId: string;
 };
 
-export const NodeParamField = ({ param }: NodeParamFieldProps) => {
+export const NodeParamField = ({ param, nodeId }: NodeParamFieldProps) => {
+  const { updateNodeData, getNode } = useReactFlow();
+  const node = getNode(nodeId) as AppNode;
+  const value = node?.data?.inputs?.[param.name];
+
+  const updateNodeParamValue = useCallback(
+    (value: string) => {
+      updateNodeData(nodeId, {
+        inputs: {
+          ...node.data.inputs,
+          [param.name]: value,
+        },
+      });
+    },
+    [updateNodeData, nodeId, node?.data.inputs, param?.name],
+  );
+
   switch (param.type) {
     case TaskParamType.STRING:
-      return <StringParam param={param} />;
+      return (
+        <StringParam
+          param={param}
+          value={value}
+          updateNodeParamValue={updateNodeParamValue}
+        />
+      );
     default:
       return (
         <div className="w-full">
