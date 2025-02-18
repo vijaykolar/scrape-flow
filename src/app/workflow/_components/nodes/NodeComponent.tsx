@@ -4,7 +4,7 @@ import { NodeCard } from "@/app/workflow/_components/nodes/NodeCard";
 import { NodeHeader } from "@/app/workflow/_components/nodes/NodeHeader";
 import { AppNodeData } from "@/types/appNode";
 import { TaskRegistry } from "@/lib/workflow/task/registry";
-import { Input } from "@/components/ui/input";
+
 import {
   NodeInput,
   NodeInputs,
