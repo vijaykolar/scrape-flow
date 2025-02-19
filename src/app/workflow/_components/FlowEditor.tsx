@@ -10,12 +10,8 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import React, { useEffect } from "react";
-
 import "@xyflow/react/dist/style.css";
-import { createFlowNode } from "@/lib/workflow/createFlowNode";
-import { TaskType } from "@/types/task";
 import NodeComponent from "@/app/workflow/_components/nodes/NodeComponent";
-import toast from "react-hot-toast";
 
 const nodeTypes = {
   FlowScrapeNode: NodeComponent,
