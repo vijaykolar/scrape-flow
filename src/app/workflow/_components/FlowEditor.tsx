@@ -28,8 +28,6 @@ const nodeTypes = {
 
 const edgeTypes = {
   default: DeletableEdge,
-  // default: DeletableEdge,
-  // default: StepEdge,
 };
 
 const snapGrid: [number, number] = [50, 50];
@@ -38,7 +36,7 @@ const fitViewOptions = { padding: 1 };
 export const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
-  const { setViewport, screenToFlowPosition } = useReactFlow();
+  const { setViewport, screenToFlowPosition, updateNodeData } = useReactFlow();
 
   useEffect(() => {
     try {
@@ -64,22 +62,47 @@ export const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  const onDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    const taskType = event.dataTransfer.getData("application/reactflow");
-    if (typeof taskType === undefined || !taskType) return;
+  const onDrop = useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      const taskType = event.dataTransfer.getData("application/reactflow");
+      if (typeof taskType === undefined || !taskType) return;
 
-    const position = screenToFlowPosition({
-      x: event.clientX,
-      y: event.clientY,
-    });
-    const newNode = createFlowNode(taskType as TaskType, position);
-    setNodes((nds) => nds.concat(newNode));
-  }, []);
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+      const newNode = createFlowNode(taskType as TaskType, position);
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [screenToFlowPosition, setNodes],
+  );
 
-  const onConnect = useCallback((connection: Connection) => {
-    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
-  }, []);
+  const onConnect = useCallback(
+    (connection: Connection) => {
+      setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
+
+      if (!connection.targetHandle) return;
+
+      const node = nodes.find((nd) => nd.id === connection.target);
+      if (!node) return;
+
+      const nodeInputs = node.data.inputs;
+      updateNodeData(node.id, {
+        inputs: {
+          ...nodeInputs,
+          [connection.targetHandle]: "",
+        },
+      });
+
+      // delete nodeInputs[connection.targetHandle];
+      // updateNodeData(node.id, {
+      //   inputs: nodeInputs,
+      // });
+    },
+    [setEdges, updateNodeData, nodes],
+  );
+
   return (
     <main className="h-full w-full">
       <ReactFlow
