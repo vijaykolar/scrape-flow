@@ -18,19 +18,17 @@ export const NodeInput = ({
 }) => {
   const edges = useEdges();
 
-  const isEdgeConnected = edges.some(
+  const isConnected = edges.some(
     (edge) => edge.target === nodeId && edge.targetHandle === input.name,
   );
 
   return (
     <div className="flex justify-start relative p-3 gap-2 bg-secondary w-ful">
-      <NodeParamField
-        disabled={isEdgeConnected}
-        param={input}
-        nodeId={nodeId}
-      />
+      <NodeParamField disabled={isConnected} param={input} nodeId={nodeId} />
+
       {!input.hideHandle && (
         <Handle
+          isConnectable={!isConnected}
           id={input.name}
           type="target"
           position={Position.Left}

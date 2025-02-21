@@ -32,7 +32,7 @@ export function NodeCard({ children, nodeId, isSelected }: NodeCardProps) {
     <div
       onDoubleClick={handleAlignCenter}
       className={cn(
-        "w-[420px] text-sm gap-1 flex flex-col rounded-md cursor-pointer bg-background border-2 border-separate",
+        "w-[435px] text-sm gap-1 flex flex-col rounded-md cursor-pointer bg-background border-2 border-separate",
         isSelected && "border-primary",
       )}
     >

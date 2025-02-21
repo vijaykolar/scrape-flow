@@ -8,6 +8,8 @@ import {
   Connection,
   Controls,
   Edge,
+  getOutgoers,
+  Node,
   ReactFlow,
   StepEdge,
   useEdgesState,
@@ -21,6 +23,7 @@ import { createFlowNode } from "@/lib/workflow/createFlowNode";
 import { TaskType } from "@/types/task";
 import { AppNode } from "@/types/appNode";
 import DeletableEdge from "@/app/workflow/_components/edges/DeletableEdge";
+import { TaskRegistry } from "@/lib/workflow/task/registry";
 
 const nodeTypes = {
   FlowScrapeNode: NodeComponent,
@@ -103,6 +106,43 @@ export const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
     [setEdges, updateNodeData, nodes],
   );
 
+  const isValidConnection = useCallback(
+    (connection: Edge | Connection) => {
+      if (connection.source === connection.target) return false;
+      const source = nodes.find((nd) => nd.id === connection.source);
+      const target = nodes.find((nd) => nd.id === connection.target);
+      if (!source || !target) return false;
+
+      const sourceTask = TaskRegistry[source.data.type];
+      const targetTask = TaskRegistry[target.data.type];
+
+      const output = sourceTask.outputs.find(
+        (opt) => opt.name === connection.sourceHandle,
+      );
+
+      const input = targetTask.inputs.find(
+        (ipt) => ipt.name === connection.targetHandle,
+      );
+
+      if (input?.type !== output?.type) {
+        return false;
+      }
+
+      const hasCycle = (node: AppNode, visited = new Set()) => {
+        if (visited.has(node.id)) return false;
+        visited.add(node);
+        for (const outger of getOutgoers(node, nodes, edges)) {
+          if (outger.id === connection.source) return true;
+          if (hasCycle(outger, visited)) return true;
+        }
+      };
+
+      const detectCycle = hasCycle(target);
+      return !detectCycle;
+    },
+    [nodes, edges],
+  );
+
   return (
     <main className="h-full w-full">
       <ReactFlow
@@ -120,6 +160,7 @@ export const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
         onDragOver={onDragOver}
         onDrop={onDrop}
         onConnect={onConnect}
+        isValidConnection={isValidConnection}
       >
         <Controls fitViewOptions={fitViewOptions} />
         {/* <MiniMap /> */}
