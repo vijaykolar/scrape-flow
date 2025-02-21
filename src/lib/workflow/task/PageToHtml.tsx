@@ -8,7 +8,7 @@ export const PageToHtmlTask = {
   isEntryPoint: false,
   inputs: [
     {
-      name: "Website URL",
+      name: "Webpage",
       type: TaskParamType.BROWSER_INSTANCE,
       required: true,
     },

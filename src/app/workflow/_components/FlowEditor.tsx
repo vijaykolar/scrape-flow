@@ -2,10 +2,15 @@
 
 import { Workflow } from "@prisma/client";
 import {
+  addEdge,
   Background,
   BackgroundVariant,
+  Connection,
   Controls,
+  Edge,
   ReactFlow,
+  StepEdge,
+  useEdgesState,
   useNodesState,
   useReactFlow,
 } from "@xyflow/react";
@@ -15,17 +20,24 @@ import NodeComponent from "@/app/workflow/_components/nodes/NodeComponent";
 import { createFlowNode } from "@/lib/workflow/createFlowNode";
 import { TaskType } from "@/types/task";
 import { AppNode } from "@/types/appNode";
+import DeletableEdge from "@/app/workflow/_components/edges/DeletableEdge";
 
 const nodeTypes = {
   FlowScrapeNode: NodeComponent,
 };
 
-// const snapGrid: [number, number] = [50, 50];
+const edgeTypes = {
+  default: DeletableEdge,
+  // default: DeletableEdge,
+  // default: StepEdge,
+};
+
+const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 1 };
 
 export const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
-  const [edges, setEdges, onEdgesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const { setViewport, screenToFlowPosition } = useReactFlow();
 
   useEffect(() => {
@@ -63,8 +75,10 @@ export const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
     });
     const newNode = createFlowNode(taskType as TaskType, position);
     setNodes((nds) => nds.concat(newNode));
+  }, []);
 
-    console.log(taskType);
+  const onConnect = useCallback((connection: Connection) => {
+    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
   }, []);
   return (
     <main className="h-full w-full">
@@ -75,12 +89,14 @@ export const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
         onNodesChange={onNodesChange}
         colorMode="system"
         nodeTypes={nodeTypes}
-        // snapToGrid
-        // snapGrid={snapGrid}
-        // fitView
+        edgeTypes={edgeTypes}
+        snapToGrid
+        snapGrid={snapGrid}
+        fitView
         fitViewOptions={fitViewOptions}
         onDragOver={onDragOver}
         onDrop={onDrop}
+        onConnect={onConnect}
       >
         <Controls fitViewOptions={fitViewOptions} />
         {/* <MiniMap /> */}
