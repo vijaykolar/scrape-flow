@@ -37,13 +37,12 @@ export const SaveBtn = ({ workflowId }: SaveBtnProps) => {
   return (
     <Button
       disabled={saveMutation.isPending}
-      color="primary"
       size="sm"
       className="flex items-center gap-2 capitalize"
       variant="outline"
       onClick={handleSave}
     >
-      <CheckIcon className="stroke-green-400" />
+      <CheckIcon className="stroke-green-500" />
       save
     </Button>
   );

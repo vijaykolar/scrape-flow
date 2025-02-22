@@ -35,7 +35,7 @@ export const StringParam = ({
       <Component
         id={id}
         disabled={disabled}
-        className="text-xs md:text-xs bg-white"
+        className="text-xs md:text-xs "
         value={internalValue}
         placeholder="Enter value here"
         onChange={(e: any) => setInternalValue(e.target.value)}

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SaveBtn } from "@/app/workflow/_components/topbar/SaveBtn";
+import { ExecuteBtn } from "@/app/workflow/_components/topbar/ExecuteBtn";
 
 type TopbarProps = {
   title?: string;
@@ -29,7 +30,8 @@ export const Topbar = ({ title, description, workflowId }: TopbarProps) => {
           <p className="text-muted-foreground text-xs">{description}</p>
         </div>
       </div>
-      <div>
+      <div className="flex gap-2 justify-end items-center">
+        <ExecuteBtn workflowId={workflowId!} />
         <SaveBtn workflowId={workflowId!} />
       </div>
     </header>

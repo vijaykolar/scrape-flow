@@ -36,7 +36,6 @@ export function NodeCard({ children, nodeId, isSelected }: NodeCardProps) {
         isSelected && "border-primary",
       )}
     >
-      <div></div>
       {children}
     </div>
   );

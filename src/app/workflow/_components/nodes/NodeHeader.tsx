@@ -28,7 +28,8 @@ export const NodeHeader = ({ taskType, nodeId }: NodeHeaderProps) => {
             <Badge className="rounded-full">Entry point</Badge>
           )}
           <Badge className="gap-2  flex items-center text-xs rounded-full">
-            <CoinsIcon size={16} /> TODO
+            <CoinsIcon size={16} />
+            {task.credits}
           </Badge>
           {!task?.isEntryPoint && (
             <>

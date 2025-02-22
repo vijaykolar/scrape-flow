@@ -8,7 +8,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/*<ReactQueryDevtools initialIsOpen={false} />*/}
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         {children}
       </ThemeProvider>

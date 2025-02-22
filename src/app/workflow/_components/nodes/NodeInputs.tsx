@@ -23,7 +23,7 @@ export const NodeInput = ({
   );
 
   return (
-    <div className="flex justify-start relative p-3 gap-2 bg-secondary w-ful">
+    <div className="flex justify-start relative p-3 gap-2 bg-secondary/60 w-ful">
       <NodeParamField disabled={isConnected} param={input} nodeId={nodeId} />
 
       {!input.hideHandle && (
