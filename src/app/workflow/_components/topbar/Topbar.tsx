@@ -14,7 +14,6 @@ type TopbarProps = {
 };
 
 export const Topbar = ({ title, description, workflowId }: TopbarProps) => {
-  console.log(description);
   const router = useRouter();
   return (
     <header className="justify-between sticky top-0 flex p-2  border-b-2 border-separate w-full h-[60px] bg-background z-10">

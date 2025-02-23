@@ -1,5 +1,5 @@
 import { AppNode, AppNodeMissingInputs } from "@/types/appNode";
-import { Edge, getIncomers } from "@xyflow/react";
+import { Edge } from "@xyflow/react";
 import {
   FlowToExecutionPlanValidationError,
   WorkflowExecutionPlan,
@@ -17,10 +17,10 @@ type FlowToExecutionPlanType = {
 
 export const flowToExecutionPlan = (
   nodes: AppNode[],
-  edges: Edge[]
+  edges: Edge[],
 ): FlowToExecutionPlanType => {
   const entryPoint = nodes.find(
-    (node) => TaskRegistry[node.data.type].isEntryPoint
+    (node) => TaskRegistry[node.data.type].isEntryPoint,
   );
   if (!entryPoint) {
     return {
@@ -99,7 +99,7 @@ export const flowToExecutionPlan = (
 function getInvalidInputs(
   node: AppNode,
   edges: Edge[],
-  planned: Set<string>
+  planned: Set<string>,
 ): string[] {
   const invalidInputs: string[] = [];
   const inputs = TaskRegistry[node.data.type]?.inputs || [];
@@ -114,7 +114,7 @@ function getInvalidInputs(
 
     const incomingEdges = edges.filter((edge) => edge.target === node.id);
     const inputLinkedToOutput = incomingEdges.find(
-      (edge) => edge.targetHandle === input.name
+      (edge) => edge.targetHandle === input.name,
     );
 
     // Ensure the input is properly linked to an output from a planned node
@@ -128,4 +128,17 @@ function getInvalidInputs(
   return invalidInputs;
 }
 
-//4:44 min end
+function getIncomers(node: AppNode, nodes: AppNode[], edges: Edge[]) {
+  if (!node.id) {
+    return [];
+  }
+
+  const incomersIds = new Set<string>();
+  edges.forEach((edge) => {
+    if (edge.target === node.id) {
+      incomersIds.add(edge.source);
+    }
+  });
+
+  return nodes.filter((n) => incomersIds.has(n.id));
+}
