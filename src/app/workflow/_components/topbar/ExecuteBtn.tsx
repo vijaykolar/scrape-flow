@@ -16,7 +16,6 @@ export const ExecuteBtn = ({ workflowId }: Props) => {
       size="sm"
       onClick={() => {
         const plan = generatePlan();
-        console.log("---------plan---------");
         console.table(plan);
       }}
     >

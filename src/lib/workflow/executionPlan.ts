@@ -17,10 +17,10 @@ type FlowToExecutionPlanType = {
 
 export const flowToExecutionPlan = (
   nodes: AppNode[],
-  edges: Edge[],
+  edges: Edge[]
 ): FlowToExecutionPlanType => {
   const entryPoint = nodes.find(
-    (node) => TaskRegistry[node.data.type].isEntryPoint,
+    (node) => TaskRegistry[node.data.type].isEntryPoint
   );
   if (!entryPoint) {
     return {
@@ -69,7 +69,6 @@ export const flowToExecutionPlan = (
       if (invalidInputs.length > 0) {
         const incomers = getIncomers(currentNode, nodes, edges);
         if (incomers.every((incomer) => planned.has(incomer.id))) {
-          console.error("Invalid inputs", currentNode.id, invalidInputs);
           inputsWithErrors.push({
             nodeId: currentNode.id,
             inputs: invalidInputs,
@@ -100,7 +99,7 @@ export const flowToExecutionPlan = (
 function getInvalidInputs(
   node: AppNode,
   edges: Edge[],
-  planned: Set<string>,
+  planned: Set<string>
 ): string[] {
   const invalidInputs: string[] = [];
   const inputs = TaskRegistry[node.data.type]?.inputs || [];
@@ -115,7 +114,7 @@ function getInvalidInputs(
 
     const incomingEdges = edges.filter((edge) => edge.target === node.id);
     const inputLinkedToOutput = incomingEdges.find(
-      (edge) => edge.targetHandle === input.name,
+      (edge) => edge.targetHandle === input.name
     );
 
     // Ensure the input is properly linked to an output from a planned node
