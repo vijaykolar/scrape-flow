@@ -11,9 +11,15 @@ type TopbarProps = {
   title?: string;
   description?: string;
   workflowId?: string;
+  hideButtons?: boolean;
 };
 
-export const Topbar = ({ title, description, workflowId }: TopbarProps) => {
+export const Topbar = ({
+  title,
+  description,
+  workflowId,
+  hideButtons = false,
+}: TopbarProps) => {
   const router = useRouter();
   return (
     <header className="justify-between sticky top-0 flex p-2  border-b-2 border-separate w-full h-[60px] bg-background z-10">
@@ -29,10 +35,12 @@ export const Topbar = ({ title, description, workflowId }: TopbarProps) => {
           <p className="text-muted-foreground text-xs">{description}</p>
         </div>
       </div>
-      <div className="flex gap-2 justify-end items-center">
-        <ExecuteBtn workflowId={workflowId!} />
-        <SaveBtn workflowId={workflowId!} />
-      </div>
+      {!hideButtons && (
+        <div className="flex gap-2 justify-end items-center">
+          <ExecuteBtn workflowId={workflowId!} />
+          <SaveBtn workflowId={workflowId!} />
+        </div>
+      )}
     </header>
   );
 };
