@@ -1,9 +1,8 @@
-import { Params } from "next/dist/server/request/params";
 import { Topbar } from "@/app/workflow/_components/topbar/Topbar";
 import { Suspense } from "react";
-import { waitFor } from "@/lib/helpers/waitFor";
 import { Loader2Icon } from "lucide-react";
-import { auth } from "@clerk/nextjs/server";
+import { GetWorkflowExecutionWithPhases } from "@/actions/workflows/getWorkflowExecutionWithPhases";
+import { ExecutionViewer } from "@/app/workflow/runs/[workflowId]/[executionId]/_components/ExecutionViewer";
 
 export default async function ExecutionViewerPage({ params }: any) {
   const { executionId, workflowId } = await params;
@@ -35,11 +34,10 @@ async function ExecutionViewerWrapper({
 }: {
   executionId: string;
 }) {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return <div>You must be logged in to view this page</div>;
+  const workflowExecution = await GetWorkflowExecutionWithPhases(executionId);
+  if (!workflowExecution) {
+    return <div>No workflow found</div>;
   }
 
-  return <div>hello</div>;
+  return <ExecutionViewer initialData={workflowExecution} />;
 }
